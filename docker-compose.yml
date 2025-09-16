@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  prometheus:
+    image: valentinagaribello/prometheusprueba:v1
+    container_name: prometheus
+    expose:
+      - "9090"
+    restart: unless-stopped
+    volumes:
+      - /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      
+  grafana:
+    image: valentinagaribello/grafanaprueba:v1
+    container_name: grafana
+    expose:
+      - "3000"
+    restart: unless-stopped
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+
+  cadvisor:
+    image: google/cadvisor:canary
+    container_name: cadvisor
+    expose:
+      - "8080"
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  node-exporter:
+    image: prom/node-exporter:master
+    container_name: node-exporter
+    expose:
+      - "9100"
+    restart: unless-stopped
+    pid: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
