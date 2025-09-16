@@ -1,0 +1,7 @@
+## Indica desde que imagen voy a trabajar
+
+FROM prom/prometheus:v3.6.0-rc.1
+
+## Que me copie el archivo de configuracion
+
+COPY prometheus.yml /opt/prometheus/prometheus.yml

@@ -1,0 +1,7 @@
+## Indica desde que imagen voy a trabajar
+
+FROM grafana/grafana:main-ubuntu
+
+## Que me copie la carpeta con el/los dashboard
+
+COPY /dashboards/ /opt/grafana/dashboards
